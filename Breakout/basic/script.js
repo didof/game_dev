@@ -111,7 +111,7 @@ const collision = () => {
         for(let ball of allBall) {
             if(ball.y + ball.dy > paddle.y - ball.radius && ball.y + ball.dy < ctx.canvas.height) {
                 if(ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
-                    ball.dy = Math.abs(ball.dy + Math.floor(Math.random() * (30) + 20));
+                    ball.dy = Math.abs(ball.dy + Math.floor(Math.random() * (50) + 20));
                     ball.dx += (paddle.dx * 0.2);
                     ball.dy = -ball.dy;
                 }
