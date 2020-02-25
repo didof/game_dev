@@ -91,7 +91,8 @@ function drawBalls() {
             ctx.fillStyle = ball.color;
             ctx.fill();
             ctx.closePath();
-            moveBall(ball);
+            collisionWall(ball);
+            collisionBalls(ballArr);
         }
     }
 }
@@ -104,12 +105,8 @@ function physic(element) {
     element.y_vel *= 0.9;
 }
 
-function randomMove(element) {
-    element.dx += 0.3;
-    element.dy += 0.3;
-}
-
-function moveBall(element) {
+function collisionWall(element) {
+    // collision with walls
     if (element.x + element.dx > ctx.canvas.width - element.radius || element.x + element.dx < element.radius) {
         element.dx = -element.dx;
     } else {
@@ -121,6 +118,26 @@ function moveBall(element) {
         element.y += element.dy;
     }
 }
+
+function collisionBalls(arr) {
+    for(let a = 0; a <= arr.length - 1; a++) {
+        // console.log('ball A: ', arr[a]);
+        for(let b = 0; b <= arr.length - 1; b++) {
+            if(a !== b) {
+                // console.log('ball B: ', arr[b]);
+                let dx = arr[a].x - arr[b].x;
+                let dy = arr[a].y - arr[b].y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                if(distance < arr[a].radius + arr[b].radius) {
+                    arr[a].dx = -arr[a].dx;
+                    arr[a].dy = -arr[a].dy
+                    console.log("collision");
+                }
+            }
+        }
+    }
+}
+
 
 class Ball {
     constructor(x, y, radius, color) {
@@ -135,7 +152,11 @@ class Ball {
 
 let ballArr = [];
 
-setInterval(createBall, Math.floor(Math.random() * (10000 - 5000) + 5000));
+// setInterval(createBall, Math.floor(Math.random() * (10000 - 3000) + 3000));
+setTimeout(createBall, 1000);
+setTimeout(createBall, 3000);
+setTimeout(createBall, 5000);
+
 
 const colorArr = ["red", "blue", "yellow", "green", "pink", "orange", "brown"]
 function createBall() {
